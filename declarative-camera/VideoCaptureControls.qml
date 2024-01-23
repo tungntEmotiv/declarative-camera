@@ -58,7 +58,7 @@ FocusScope {
                     id: settingsButton
                     text: "Settings"
                     anchors.fill: parent
-                    visible: captureSession.recorder.recorderState !== MediaRecorder.RecordingState
+                    visible: captureSession.recorder.recorderState !== MediaRecorder.RecordingState && (fileFormatModel.length > 0)
                     onClicked: {
                         // open popup settings
                         settingPopup.open()
@@ -148,6 +148,9 @@ FocusScope {
                 // save settings
                 applySettings(sAudioCodecIdx, sVideoCodecIdx, sQualityIdx, sFileFormatIdx)
                 settingPopup.close()
+            }
+            onVideoCodecNFileFormatChanged: (sVideoCodecIdx, sFileFormatIdx) => {
+                videoCodecNFileFormatChanged(sVideoCodecIdx, sFileFormatIdx)
             }
         }
     }
@@ -267,12 +270,4 @@ FocusScope {
             }
         }
     ]
-
-    QtObject {
-        id: _private
-
-        function checkAudioCodecListUpdate(){
-            videoCodecNFileFormatChanged(videoCodecCb.currentIndex, fileFormatCb.currentIndex)
-        }
-    }
 }

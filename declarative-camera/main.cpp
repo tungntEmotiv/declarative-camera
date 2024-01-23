@@ -23,6 +23,11 @@ int main(int argc, char *argv[])
 #else
     engine.rootContext()->setContextProperty("isAndroid", QVariant(false));
 #endif
+#if defined (Q_OS_IOS)
+    engine.rootContext()->setContextProperty("isIOS", QVariant(true));
+#else
+    engine.rootContext()->setContextProperty("isIOS", QVariant(false));
+#endif
 
 #if defined (Q_OS_ANDROID) || defined (Q_OS_IOS)
     engine.rootContext()->setContextProperty("mobileUI", QVariant(true));

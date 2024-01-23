@@ -11,6 +11,8 @@ Item {
 
     signal discardButtonClicked()
     signal saveButtonClicked(var sAudioCodecIdx, var sVideoCodecIdx, var sQualityIdx, var sFileFormatIdx)
+    signal videoCodecNFileFormatChanged(var sVideoCodecIdx, var sFileFormatIdx)
+
     // title
     Text {
         id: titleTxt
@@ -39,6 +41,10 @@ Item {
             bottom: actionButtons.top
             bottomMargin: 40
         }
+        flickableDirection: Flickable.VerticalFlick
+        clip:true
+        boundsBehavior: Flickable.StopAtBounds
+        boundsMovement: Flickable.StopAtBounds
 
         contentHeight: containerCol.height
         Column {
@@ -300,6 +306,14 @@ Item {
                 saveButtonClicked(audioCodecCob.currentIndex, videoCodecCb.currentIndex,
                                   qualityCb.currentIndex, fileFormatCb.currentIndex)
             }
+        }
+    }
+
+    QtObject {
+        id: _private
+
+        function checkAudioCodecListUpdate(){
+            videoCodecNFileFormatChanged(videoCodecCb.currentIndex, fileFormatCb.currentIndex)
         }
     }
 }

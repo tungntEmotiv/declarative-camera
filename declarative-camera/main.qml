@@ -76,11 +76,13 @@ ApplicationWindow {
                 }
 
                 onRecorderStateChanged: {
-                    console.log("onRecorderStateChanged: record state ", recorderState, " location ", outputLocation,
-                                " actuallocation:",actualLocation )
                     switch (recorderState) {
                         case MediaRecorder.StoppedState:
                             videoPreview.sourceFile = actualLocation
+                            if (isIOS) {
+                                // init model for videoControls. TODO (Tung Nguyen): check why can not settings in first time
+                                _private.initModel()
+                            }
                             break
                         default:
                             break
@@ -160,7 +162,8 @@ ApplicationWindow {
                 videoControls.audioCodecModel = _private.getAudioCodecList()
             }
             onCameraDeviceChanged: {
-                _private.getVideoFormats()
+                _private.initModel()
+                // _private.getVideoFormats()
             }
         }
         // clock to show record times
@@ -189,7 +192,7 @@ ApplicationWindow {
         }
         _private.setState()
         _private.initModel()
-        _private.getVideoFormats()
+        // _private.getVideoFormats()
     }
 
 
