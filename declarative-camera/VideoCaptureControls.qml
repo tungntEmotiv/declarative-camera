@@ -86,7 +86,7 @@ FocusScope {
                     anchors.fill: parent
                     onClicked: captureControls.previewSelected()
                     //don't show View button during recording
-                    visible: captureSession.recorder.actualLocation && !stopButton.visible
+                    visible: captureSession.recorder.actualLocation != "" && !stopButton.visible
                 }
             }
         }

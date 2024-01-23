@@ -24,7 +24,9 @@ Item {
         }
         anchors {
             top: parent.top
+            topMargin: 8
             left: parent.left
+            leftMargin: 8
         }
         onClicked: {
             backButtonClicked()
@@ -55,7 +57,7 @@ Item {
             left: parent.left
             right: parent.right
         }
-        orientation: 90 // TODO (Tung Nguyen): check why always rotation 90
+        orientation: isAndroid ? 90 : 0 // TODO (Tung Nguyen): check why always rotation 90 on android
     }
 
     // playback control
