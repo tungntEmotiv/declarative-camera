@@ -9,7 +9,9 @@ Popup {
 
     required property MediaRecorder recorder
     required property Camera camera
+    required property AudioInput audioInput
     property cameraFormat currCameraFormat
+
 
     function populateModels() {
         console.log("populateModels")
@@ -17,6 +19,7 @@ Popup {
         videoCodecModel.populate()
         fileFormatModel.populate()
         cameraFormatModel.populate()
+        audioInputModel.populate()
     }
 
     focus: true
@@ -27,6 +30,8 @@ Popup {
 
     padding: 24
     closePolicy: Popup.NoAutoClose
+
+    MediaDevices { id: mediaDevices }
 
     background: Rectangle {
         width: videoSettingsPopup.width
@@ -93,7 +98,7 @@ Popup {
                 Rectangle {
                     id: audioSettings
                     width: parent.width
-                    height: 80
+                    height: 160
                     color: "transparent"
                     anchors.horizontalCenter: parent.horizontalCenter
                     border.color: "#B1B1B1"
@@ -139,6 +144,58 @@ Popup {
                             for (var c of cs)
                                 audioCodecModel.append({"displayName": recorder.mediaFormat.audioCodecName(c), "code": c})
                             audioCodecCb.currentIndex = cs.indexOf(recorder.mediaFormat.audioCodec) + 1
+                        }
+                    }
+
+                    // choose audio input
+                    Text {
+                        id: audioInputTxt
+                        text: qsTr("Audio Input")
+                        height: 24
+                        font.pixelSize: 16
+                        font.bold: Font.Normal
+                        anchors {
+                            left: parent.left
+                            leftMargin: 8
+                            top: audioCodecCb.bottom
+                            topMargin: 8
+                        }
+                    }
+                    ComboBox {
+                        id: audioInputCb
+                        anchors {
+                            left: parent.left
+                            leftMargin: 8
+                            right: parent.right
+                            rightMargin: 8
+                            top: audioInputTxt.bottom
+                            topMargin: 4
+                        }
+                        textRole: "text"
+                        valueRole: "value"
+                        height: 40
+                        width: parent.width - 16
+                        model: audioInputModel
+
+                        onCurrentValueChanged: {
+                            if (typeof audioInputCb.currentValue !== 'undefined')
+                                audioInput.device = currentValue.audioDevice
+                        }
+                    }
+                    ListModel {
+                        id: audioInputModel
+                        property var audioInputs: mediaDevices.audioInputs
+                        function populate() {
+                            audioInputModel.clear()
+                            for (var audioDevice of audioInputs) {
+                                audioInputModel.append({ text: audioDevice.description, value:
+                                                        { type: 'audioDevice', audioDevice: audioDevice} })
+                            }
+                            if (audioInputModel.count  > 0) {
+                                // set default
+                                audioInput.device = audioInputs[0]
+                                audioCodecCb.currentIndex = 0
+                            }
                         }
                     }
                 }

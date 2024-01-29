@@ -36,5 +36,6 @@
         <file>images/ic-info-blue.svg</file>
         <file>VideoDetailsPopup.qml</file>
         <file>VideoSettingsPopup.qml</file>
+        <file>main_no_permissions.qml</file>
     </qresource>
 </RCC>

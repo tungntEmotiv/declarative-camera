@@ -119,7 +119,7 @@ Popup {
             id: cancelButton
             text: "<font color=\"black\"><b>Cancel</b></font>"
             height: 40
-            width: 80
+            width: 120
             background: Rectangle {
                 border.color: "#D5D5D5"
                 border.width: 2

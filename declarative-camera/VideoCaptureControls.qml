@@ -57,7 +57,8 @@ FocusScope {
                     onClicked: {
                         // open popup settings
                         root.showPopup("VideoSettingsPopup", {"recorder": captureSession.recorder,
-                                                              "camera":captureSession.camera})
+                                                              "camera": captureSession.camera,
+                                                              "audioInput": captureSession.audioInput})
                     }
                 }
             }

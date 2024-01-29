@@ -86,13 +86,17 @@ ApplicationWindow {
             camera: Camera {
                 id: camera
             }
+            audioInput: AudioInput {
+                volume: 1
+            }
+            recorder: mediaRecorder
+            videoOutput: viewfinder
+            audioOutput: AudioOutput {
+                    volume: 0.5
+            }
             imageCapture: ImageCapture {
                 id: imageCapture
             }
-
-            recorder: mediaRecorder
-
-            videoOutput: viewfinder
         }
 
         MediaRecorder {
@@ -129,7 +133,7 @@ ApplicationWindow {
             source: imageCapture.preview
         }
 
-         MediaPlayerView {
+        MediaPlayerView {
             id:videoPreview
             anchors.fill : parent
             mediaRecorder: mediaRecorder
