@@ -10,11 +10,6 @@ FocusScope {
     id : captureControls
     property CaptureSession captureSession
     property bool previewAvailable : false
-    property var audioCodecModel: []
-    property var qualityModel: []
-    property var fileFormatModel: []
-    property var videoCodecModel: []
-    property var cameraFormatModel: []
 
     property int buttonsmargin: 8
     property int buttonsPanelWidth
@@ -23,9 +18,6 @@ FocusScope {
 
     signal previewSelected
     signal photoModeSelected
-    signal fileFormatSelected(var fileFormat)
-    signal applySettings(var sAudioCodecIdx, var sVideoCodecIdx, var sQualityIdx, var sFileFormatIdx)
-    signal videoCodecNFileFormatChanged(var sVideoCodecIdx, var sFileFormatIdx)
     signal cameraDeviceChanged()
 
     Rectangle {
@@ -47,7 +39,10 @@ FocusScope {
                     text: "Record"
                     anchors.fill: parent
                     visible: captureSession.recorder.recorderState !== MediaRecorder.RecordingState
-                    onClicked: captureSession.recorder.record()
+                    onClicked: {
+                        console.log("start record")
+                        captureSession.recorder.record()
+                    }
                 }
             }
             // settings buttons
@@ -58,10 +53,11 @@ FocusScope {
                     id: settingsButton
                     text: "Settings"
                     anchors.fill: parent
-                    visible: captureSession.recorder.recorderState !== MediaRecorder.RecordingState && (fileFormatModel.length > 0)
+                    visible: captureSession.recorder.recorderState !== MediaRecorder.RecordingState //&& (fileFormatModel.length > 0)
                     onClicked: {
                         // open popup settings
-                        settingPopup.open()
+                        root.showPopup("VideoSettingsPopup", {"recorder": captureSession.recorder,
+                                                              "camera":captureSession.camera})
                     }
                 }
             }
@@ -117,40 +113,6 @@ FocusScope {
                 text: "Quit"
                 implicitWidth: buttonsWidth
                 onClicked: Qt.quit()
-            }
-        }
-    }
-
-    Popup {
-        id: settingPopup
-        anchors.centerIn: parent
-        width: (parent.width - 48)
-        height: parent.height - 120
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnPressOutside
-        background: Rectangle {
-            color: "white"
-            radius: 10
-            anchors.fill: parent
-        }
-        contentItem: VideoSettings {
-            id: videoSettings
-            anchors.fill: parent
-            audioCodecModel: captureControls.audioCodecModel
-            videoCodecModel: captureControls.videoCodecModel
-            qualityModel: captureControls.qualityModel
-            fileFormatModel: captureControls.fileFormatModel
-            onDiscardButtonClicked: {
-                settingPopup.close()
-            }
-            onSaveButtonClicked: (sAudioCodecIdx, sVideoCodecIdx, sQualityIdx, sFileFormatIdx) =>{
-                // save settings
-                applySettings(sAudioCodecIdx, sVideoCodecIdx, sQualityIdx, sFileFormatIdx)
-                settingPopup.close()
-            }
-            onVideoCodecNFileFormatChanged: (sVideoCodecIdx, sFileFormatIdx) => {
-                videoCodecNFileFormatChanged(sVideoCodecIdx, sFileFormatIdx)
             }
         }
     }

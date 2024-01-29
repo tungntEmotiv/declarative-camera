@@ -5,7 +5,9 @@ import QtMultimedia
 
 Item {
     id: mediaPlayerView
-    property string sourceFile: ""
+    property url sourceFile: ""
+    required property var mediaRecorder
+    property var metaData: ({})
     signal backButtonClicked()
 
     Popup {
@@ -15,23 +17,28 @@ Item {
             id: mediaErrorText
         }
     }
-    Button {
-        id: backButton
-        icon {
-            width: 24
-            height: 24
-            source: "qrc:/images/ic-back.svg"
-        }
-        anchors {
-            top: parent.top
-            topMargin: 8
-            left: parent.left
-            leftMargin: 8
-        }
-        onClicked: {
-            backButtonClicked()
-        }
-    }
+
+    // Popup {
+    //     id: videoDetailPopup
+    //     anchors.centerIn: parent
+    //     width: (parent.width - 48)
+    //     height: parent.height - 200
+    //     topPadding: 40
+    //     modal: true
+    //     focus: true
+    //     closePolicy: Popup.CloseOnPressOutside
+    //     background: Rectangle {
+    //         color: "white"
+    //         radius: 10
+    //         anchors.fill: parent
+    //     }
+    //     contentItem: VideoDetails {
+    //         id: videoDetails
+    //         anchors.fill: parent
+    //         sourceFile: mediaPlayerView.sourceFile
+    //         videoMetaData: metaData
+    //     }
+    // }
 
     MediaPlayer {
         id: mediaPlayer
@@ -69,6 +76,43 @@ Item {
             right: parent.right
         }
         mediaPlayer: mediaPlayer
+    }
+
+    Button {
+        id: backButton
+        icon {
+            width: 24
+            height: 24
+            source: "qrc:/images/ic-back.svg"
+        }
+        anchors {
+            top: parent.top
+            topMargin: 8
+            left: parent.left
+            leftMargin: 8
+        }
+        onClicked: {
+            backButtonClicked()
+        }
+    }
+
+    // Button meta data
+    Button {
+        icon {
+            width: 24
+            height: 24
+            source: "qrc:/images/ic-info-blue.svg"
+        }
+        anchors {
+            top: parent.top
+            topMargin: 8
+            right: parent.right
+            rightMargin: 8
+        }
+        onClicked: {
+            // show popup meta data
+            root.showPopup("VideoDetailsPopup", {"sourceFile": sourceFile, "videoMetaData": mediaRecorder.metaData})
+        }
     }
 
 }

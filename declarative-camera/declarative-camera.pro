@@ -3,7 +3,8 @@ TARGET=declarative-camera
 
 QT += quick qml multimedia
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    Utils.cpp
 RESOURCES += declarative-camera.qrc
 
 target.path = $$[QT_INSTALL_EXAMPLES]/multimedia/declarative-camera
@@ -25,4 +26,7 @@ ios{
             android/build.gradle \
             android/res/values/libs.xml
 }
+
+HEADERS += \
+    Utils.h
 

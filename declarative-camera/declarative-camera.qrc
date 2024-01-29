@@ -33,6 +33,8 @@
         <file>images/Mute_Icon.svg</file>
         <file>images/Speaker_Icon.svg</file>
         <file>images/ic-back.svg</file>
-        <file>VideoSettings.qml</file>
+        <file>images/ic-info-blue.svg</file>
+        <file>VideoDetailsPopup.qml</file>
+        <file>VideoSettingsPopup.qml</file>
     </qresource>
 </RCC>

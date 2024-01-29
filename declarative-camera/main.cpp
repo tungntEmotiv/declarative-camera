@@ -4,6 +4,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "Utils.h"
 
 #if QT_CONFIG(permissions)
   #include <QPermission>
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion("1.1.0");
 
     QQmlApplicationEngine engine;
+
+    engine.rootContext()->setContextProperty("utils", Utils::instance());
 
 #if defined (Q_OS_ANDROID)
     engine.rootContext()->setContextProperty("isAndroid", QVariant(true));
